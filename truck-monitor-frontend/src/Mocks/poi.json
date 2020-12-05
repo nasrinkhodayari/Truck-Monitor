@@ -1,0 +1,14 @@
+[
+    {
+        "label": "Restaurant",
+        "value": "Restaurant"
+    },
+    {
+        "label": "Hotel",
+        "value": "Hotel"
+    },
+    {
+        "label": "Gas Station",
+        "value": "Gas Station"
+    }
+]

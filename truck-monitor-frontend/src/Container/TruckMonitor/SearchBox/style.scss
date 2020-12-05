@@ -1,0 +1,49 @@
+@import "../../../Assets/scss/variables.scss";
+
+.search-box-row {
+    background-color: #fff;
+    position: relative;
+    z-index: 1;
+    box-shadow: 3px 6px 11px 4px #0da3fa57;
+    border-bottom-right-radius: 10px;
+    width: 50%;
+    padding: 10px;
+    padding-right: 20px;
+    @media screen and (max-width: 992px) {
+        div {
+            margin-bottom: 5px;
+        }
+    }
+
+    .arrow-icon {
+        right: -8px;
+        position: absolute;
+        cursor: pointer;
+        font-size: 25px;
+        top: 50%;
+        color: $light_gray;
+        height: 25px;
+        width: 25px;
+        margin-top: -25px;
+        i {
+            font-size: large;
+            color: $light_sky_blue;
+        }
+    }
+}
+
+.show-search-box-row {
+    div.col-12 {
+        display: grid;
+    }
+}
+.hide-search-box-row {
+    width: 20px;
+    height: 58px;
+    @media screen and (max-width: 992px) {
+        height: 204px;
+    }
+    div.col-12 {
+        display: none;
+    }
+}

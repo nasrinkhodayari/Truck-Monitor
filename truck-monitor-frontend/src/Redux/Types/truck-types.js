@@ -1,0 +1,3 @@
+export const GET_TRUCK = 'GET_TRUCK';
+export const TRUCK_ERROR = 'TRUCK_ERROR';
+export const TRUCK_LICENSE_PLATE = 'TRUCK_LICENSE_PLATE';
