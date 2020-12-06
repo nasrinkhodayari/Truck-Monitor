@@ -7,6 +7,8 @@ import "./style.scss";
 import truckService from "../Services/truck-service";
 import poiService from "../Services/poi-service";
 import { flyMapCenter, markerIconDetector, removeMarker } from "../../../Utils/util";
+import { icn_current_location, icn_path, icn_first_location } from "../../../Constance/map-icons";
+import { GET_TRUCK, TRUCK_LICENSE_PLATE } from '../../../Redux/Types/truck-types';
 
 const SearchBox = props => {
     const { storeData, dispatch, t, addMarker, map } = props;
@@ -20,9 +22,20 @@ const SearchBox = props => {
     });
     const [poiByRadiusLabelList] = useState(poiService.getpoiByRadiusLabelList(t));
     const [disabledSearchPOI, setDisabledSearchPOI] = useState(true);
-    const { REACT_APP_LICENSE_PLATE_LENGTH, REACT_APP_MAPBOX_ZOOM } = process.env;
+    const { REACT_APP_LICENSE_PLATE_LENGTH,
+        REACT_APP_MAPBOX_ZOOM
+    } = process.env;
 
-
+    const zoomInAfterSearch = zoomLevel => {
+        flyMapCenter({
+            map: map,
+            center: [
+                storeData.truckReducer.truck.current_lng,
+                storeData.truckReducer.truck.current_lat
+            ],
+            zoom: REACT_APP_MAPBOX_ZOOM - zoomLevel
+        });
+    };
     const searchTruck = (evt) => {
 
         let licensePlateLen = parseInt(REACT_APP_LICENSE_PLATE_LENGTH);
@@ -35,14 +48,50 @@ const SearchBox = props => {
         }
 
         if (evt.target.value.length === licensePlateLen) {
+            let licensePlate = evt.target.value;
+            truckService.getTruckByLicensePlate(licensePlate)
+                .then((resultData) => {
+                    const truckData = resultData.data;
+                    dispatch({ type: TRUCK_LICENSE_PLATE, truckLicensePlate: licensePlate });
+                    dispatch({ type: GET_TRUCK, truck: truckData });
+                    flyMapCenter({
+                        map: map,
+                        center: [
+                            truckData.current_lng,
+                            truckData.current_lat
+                        ],
+                        zoom: REACT_APP_MAPBOX_ZOOM
+                    });
 
-            truckService.getTruckByID({
-                dispatch: dispatch,
-                licensePlate: evt.target.value,
-                addMarker: addMarker,
-                map: map,
-                markerType: 'truck'
-            });
+                    addMarker({
+                        map: map,
+                        center: [truckData.source_lng, truckData.source_lat],
+                        icon: icn_first_location,
+                        markerType: 'path',
+                        title: `Truck first location`
+                    });
+
+                    addMarker({
+                        map: map,
+                        center: [truckData.current_lng, truckData.current_lat],
+                        icon: icn_current_location,
+                        markerType: 'truck',
+                        title: `Truck License Plate : ${licensePlate.toUpperCase()}`
+                    });
+
+                    truckData.truckRoute.map((routeItem) => {
+                        return addMarker({
+                            map: map,
+                            center: routeItem,
+                            icon: icn_path,
+                            markerType: 'path',
+                            title: routeItem
+                        });
+                    });
+                })
+                .catch((exeption) => {
+                    console.log(exeption);
+                });
             setDisabledSearchPOI(false);
         }
     };
@@ -57,14 +106,8 @@ const SearchBox = props => {
             const { data, features } = poisList;
             let poiDataList = data.features || features;
 
-            if (poiDataList.length) {
-                const { center } = poiDataList[0];
-                flyMapCenter({
-                    map: map,
-                    center: center,
-                    zoom: REACT_APP_MAPBOX_ZOOM - 1
-                });
-            }
+            zoomInAfterSearch(2);
+
             poiDataList.map(poiVal => {
                 const { properties, center } = poiVal;
                 let markerIcon = markerIconDetector(properties.category.split(', '));
@@ -90,14 +133,7 @@ const SearchBox = props => {
         }).then((poisByRadiusList) => {
             const { data, features } = poisByRadiusList;
             let poiDataList = data.features || features;
-            if (poiDataList.length) {
-                const { geometry } = poiDataList[0];
-                flyMapCenter({
-                    map: map,
-                    center: geometry.coordinates,
-                    zoom: REACT_APP_MAPBOX_ZOOM 
-                });
-            }
+            zoomInAfterSearch(2);
             poiDataList.map(poiRadiusVal => {
                 const { properties, geometry } = poiRadiusVal;
                 let markerIcon = [];
