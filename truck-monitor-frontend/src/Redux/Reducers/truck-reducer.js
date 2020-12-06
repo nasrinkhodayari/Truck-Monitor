@@ -1,7 +1,8 @@
-import { GET_TRUCK, TRUCK_ERROR, TRUCK_LICENSE_PLATE } from '../Types/truck-types';
+import { GET_TRUCK, TRUCK_ERROR } from '../Types/truck-types';
 
 const initialState = {
-    truck: {}
+    truck: {},
+    error: {}
 }
 
 const TruckReducer = (state = initialState, action) => {
@@ -16,12 +17,6 @@ const TruckReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: action.error
-
-            }
-        case TRUCK_LICENSE_PLATE:
-            return {
-                ...state,
-                truckLicensePlate: action.truckLicensePlate
 
             }
         default: return state

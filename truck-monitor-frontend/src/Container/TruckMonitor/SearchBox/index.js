@@ -8,10 +8,12 @@ import truckService from "../Services/truck-service";
 import poiService from "../Services/poi-service";
 import { flyMapCenter, markerIconDetector, removeMarker } from "../../../Utils/util";
 import { icn_current_location, icn_path, icn_first_location } from "../../../Constance/map-icons";
-import { GET_TRUCK, TRUCK_LICENSE_PLATE } from '../../../Redux/Types/truck-types';
+import { GET_TRUCK } from '../../../Redux/Types/truck-types';
 
 const SearchBox = props => {
     const { storeData, dispatch, t, addMarker, map } = props;
+    const [selectedPOI, setSelectedPOI] = useState('');
+    const [selectedPOIRadius, setSelectedPOIRadius] = useState('');
     const [searchBoxClass, setSearchBoxClass] = useState('show-search-box-row');
     const defaultSearchBoxClass = 'search-box-row';
     const [showSearchBox, setShowSearchBox] = useState(true);
@@ -36,7 +38,7 @@ const SearchBox = props => {
             zoom: REACT_APP_MAPBOX_ZOOM - zoomLevel
         });
     };
-    const searchTruck = (evt) => {
+    const searchTruck = evt => {
 
         let licensePlateLen = parseInt(REACT_APP_LICENSE_PLATE_LENGTH);
 
@@ -52,7 +54,6 @@ const SearchBox = props => {
             truckService.getTruckByLicensePlate(licensePlate)
                 .then((resultData) => {
                     const truckData = resultData.data;
-                    dispatch({ type: TRUCK_LICENSE_PLATE, truckLicensePlate: licensePlate });
                     dispatch({ type: GET_TRUCK, truck: truckData });
                     flyMapCenter({
                         map: map,
@@ -95,11 +96,11 @@ const SearchBox = props => {
             setDisabledSearchPOI(false);
         }
     };
-    const findPOI = (poi) => {
+    const findPOI = poi => {
+        setSelectedPOI(poi);
         removeMarker('poi');
         removeMarker('poiRadius');
         poiService.getNearestPois({
-            dispatch: dispatch,
             poiTypes: poi,
             truck: storeData.truckReducer.truck
         }).then((poisList) => {
@@ -123,7 +124,8 @@ const SearchBox = props => {
             console.log(exeption);
         });
     };
-    const findPOIByRadius = (radius) => {
+    const findPOIByRadius = radius => {
+        setSelectedPOIRadius(radius);
         removeMarker('poiRadius');
         removeMarker('poi');
         poiService.getNearestPoisByRadius({
@@ -133,7 +135,7 @@ const SearchBox = props => {
         }).then((poisByRadiusList) => {
             const { data, features } = poisByRadiusList;
             let poiDataList = data.features || features;
-            zoomInAfterSearch(2);
+            zoomInAfterSearch(1);
             poiDataList.map(poiRadiusVal => {
                 const { properties, geometry } = poiRadiusVal;
                 let markerIcon = [];
@@ -161,12 +163,12 @@ const SearchBox = props => {
                 <Col lg={4} xs={12}>
                     <Select
                         isDisabled={disabledSearchPOI}
-                        placeholder={t('Select POI type')} value={storeData.selectedPOI} onChange={findPOI} options={[allPoiOption, ...poiLabelList]} />
+                        placeholder={t('Select POI type')} value={selectedPOI} onChange={findPOI} options={[allPoiOption, ...poiLabelList]} />
                 </Col>
                 <Col lg={4} xs={12}>
                     <Select
                         isDisabled={disabledSearchPOI}
-                        placeholder={t('Select radius')} value={storeData.selectedPOIRadius} onChange={findPOIByRadius} options={poiByRadiusLabelList} />
+                        placeholder={t('Select radius')} value={selectedPOIRadius} onChange={findPOIByRadius} options={poiByRadiusLabelList} />
                 </Col>
                 {/* <Col lg={2} xs={12}><AppButton label={t('Apply')}></AppButton></Col> */}
             </Row>

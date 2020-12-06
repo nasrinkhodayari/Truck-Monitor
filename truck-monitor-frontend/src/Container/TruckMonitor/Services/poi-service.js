@@ -1,7 +1,6 @@
-import { SET_POI, SET_POI_RADIUS } from "../../../Redux/Types/poi-types";
 import apiRequests from "../../../Utils/api-requests";
 const poisLabelData = require("../../../Mocks/poi.json");
-const poisRadiusLabeLabelData = require("../../../Mocks/radius.json");
+
 const { REACT_APP_POI_LIMIT_COUNT,
     REACT_APP_GET_COUNTRY,
     REACT_APP_MAPBOX_ACCESS_TOKEN,
@@ -10,14 +9,13 @@ const { REACT_APP_POI_LIMIT_COUNT,
 } = process.env;
 
 const poiService = {
-    getpoiLabelList: (t) => {
+    getpoiLabelList: translator => {
         let translatedPoiLabelList = poisLabelData;
-        translatedPoiLabelList.map(item => item.label = t(item.label));
+        translatedPoiLabelList.map(item => item.label = translator(item.label));
         return translatedPoiLabelList
     },
-    getNearestPois: (inputParams) => {
-        const { truck, poiTypes, dispatch } = inputParams;
-        dispatch({ type: SET_POI, selectedPOI: poiTypes });
+    getNearestPois: inputParams => {
+        const { truck, poiTypes } = inputParams;
 
         let nearestPoisURL = [
             `${poiTypes.value}.json?`,
@@ -32,12 +30,11 @@ const poiService = {
             nearestPoisURL);
     },
     getpoiByRadiusLabelList: () => {
+        const poisRadiusLabeLabelData = require("../../../Mocks/radius.json");
         return poisRadiusLabeLabelData
     },
-    getNearestPoisByRadius: (inputParams) => {
-        const { truck, radius, dispatch } = inputParams;
-        dispatch({ type: SET_POI_RADIUS, selectedPOIRadius: radius });
-
+    getNearestPoisByRadius: inputParams => {
+        const { truck, radius } = inputParams;
         let nearestPoisByRadiusURL = [
             `${truck.source_lng},${truck.source_lat}.json?`,
             `radius=${radius.value}&`,

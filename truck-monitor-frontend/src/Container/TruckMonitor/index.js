@@ -20,7 +20,7 @@ const TruckMonitor = () => {
     const mapContainer = useRef(null);
 
 
-    const addMarker = (markerItem) => {
+    const addMarker = markerItem => {
 
         let markerEl = document.createElement('div');
         markerEl.classList.add('marker');

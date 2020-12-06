@@ -1,14 +1,8 @@
-import { GET_TRUCK, TRUCK_ERROR } from '../Types';
+import { GET_TRUCK } from '../Types';
 
-export const getTruckByPlateId = (truck) => {  
+export const getTruckByPlateId = truck => {  
     return {
         type: GET_TRUCK,
         truck
-    }
-}
-export const getTruckLicensePlate = (licensePlate) => {    
-    return {
-        type: GET_TRUCK,
-        licensePlate
     }
 }
