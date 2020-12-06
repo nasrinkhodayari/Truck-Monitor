@@ -1,4 +1,4 @@
-import { GET_TRUCK } from '../Types';
+import { GET_TRUCK } from '../Types/truck-types';
 
 export const getTruckByPlateId = truck => {  
     return {

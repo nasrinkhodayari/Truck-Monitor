@@ -15,7 +15,7 @@ const poiService = {
         return translatedPoiLabelList
     },
     getNearestPois: inputParams => {
-        const { truck, poiTypes } = inputParams;
+        const { truck, poiTypes, dispatch } = inputParams;
 
         let nearestPoisURL = [
             `${poiTypes.value}.json?`,
@@ -25,16 +25,18 @@ const poiService = {
             `${truck.source_lat}&`,
             `access_token=${REACT_APP_MAPBOX_ACCESS_TOKEN}`
         ].join('');
-        return apiRequests.get(
-            REACT_APP_GET_POIS_MABBOX_API,
-            nearestPoisURL);
+        return apiRequests.get({
+            path: REACT_APP_GET_POIS_MABBOX_API,
+            apiURL: nearestPoisURL,
+            dispatch: dispatch
+        });
     },
     getpoiByRadiusLabelList: () => {
         const poisRadiusLabeLabelData = require("../../../Mocks/radius.json");
         return poisRadiusLabeLabelData
     },
     getNearestPoisByRadius: inputParams => {
-        const { truck, radius } = inputParams;
+        const { truck, radius, dispatch } = inputParams;
         let nearestPoisByRadiusURL = [
             `${truck.source_lng},${truck.source_lat}.json?`,
             `radius=${radius.value}&`,
@@ -43,9 +45,11 @@ const poiService = {
             `layers=poi_label&`,
             `access_token=${REACT_APP_MAPBOX_ACCESS_TOKEN}`
         ].join('');
-        return apiRequests.get(
-            REACT_APP_GET_RADIUS_MABBOX_API,
-            nearestPoisByRadiusURL);
+        return apiRequests.get({
+            patch: REACT_APP_GET_RADIUS_MABBOX_API,
+            apiURL: nearestPoisByRadiusURL,
+            dispatch: dispatch
+        });
     }
 };
 export default poiService;

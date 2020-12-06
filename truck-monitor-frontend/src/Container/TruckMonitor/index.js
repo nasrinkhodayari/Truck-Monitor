@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { APP_LOADING } from '../../Redux/Types/main-types';
 import "./style.scss";
 import SearchBox from "./SearchBox";
 import mapboxgl from 'mapbox-gl';
+import AppLoading from "../../Components/Loading";
 const {
     REACT_APP_MAPBOX_ACCESS_TOKEN,
     REACT_APP_MAPBOX_CENTER_LNG,
@@ -18,7 +20,7 @@ const TruckMonitor = () => {
     const storeData = useSelector(state => state);
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
-
+    const { MainReducer } = storeData;
 
     const addMarker = markerItem => {
 
@@ -49,6 +51,7 @@ const TruckMonitor = () => {
             });
             map.on("load", () => {
                 setMap(map);
+                dispatch({ type: APP_LOADING, loading: false });
                 map.addControl(new mapboxgl.NavigationControl());
                 map.resize();
             });
@@ -58,6 +61,7 @@ const TruckMonitor = () => {
     }, [map]);
     return (
         <div className="truck-monitor-root">
+            {MainReducer.loading && <AppLoading />}
             {map && <SearchBox map={map}
                 mapboxgl={mapboxgl}
                 storeData={storeData}

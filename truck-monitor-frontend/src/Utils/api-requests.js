@@ -1,23 +1,30 @@
 import axios from 'axios';
+import { APP_LOADING } from '../Redux/Types/main-types';
 
 let apiRequests = {
-    get: (path, apiURL) => {
+    get: getInputParams => {
+        const { path, apiURL, dispatch } = getInputParams;
+        dispatch({ type: APP_LOADING, loading: true });
         return axios.get(path + apiURL)
+            .finally(() => dispatch({ type: APP_LOADING, loading: false }));
     },
-    getByParam: (path, apiURL, inputParams) => {
-        return axios.get(path + apiURL, { params: inputParams })
-    },
-    post: (path, apiURL, inputData) => {
+    post: postInputParams => {
+        const { path, apiURL, dispatch, inputData } = postInputParams;
+        dispatch({ type: APP_LOADING, loading: true });
         return axios.post(path + apiURL, inputData)
+            .finally(() => dispatch({ type: APP_LOADING, loading: false }));
     },
-    put: (path, apiURL, inputData) => {
+    put: putInputParams => {
+        const { path, apiURL, dispatch, inputData } = putInputParams;
+        dispatch({ type: APP_LOADING, loading: true });
         return axios.put(path + apiURL, inputData)
+            .finally(() => dispatch({ type: APP_LOADING, loading: false }));
     },
-    patch: (path, apiURL) => {
-        return axios.patch(path + apiURL)
-    },
-    delete: (path, apiURL) => {
+    delete: deleteInputParams => {
+        const { path, apiURL, dispatch } = deleteInputParams;
+        dispatch({ type: APP_LOADING, loading: true });
         return axios.delete(path + apiURL)
+            .finally(() => dispatch({ type: APP_LOADING, loading: false }));
     }
 }
 

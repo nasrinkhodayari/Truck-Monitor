@@ -32,8 +32,8 @@ const SearchBox = props => {
         flyMapCenter({
             map: map,
             center: [
-                storeData.truckReducer.truck.current_lng,
-                storeData.truckReducer.truck.current_lat
+                storeData.TruckReducer.truck.current_lng,
+                storeData.TruckReducer.truck.current_lat
             ],
             zoom: REACT_APP_MAPBOX_ZOOM - zoomLevel
         });
@@ -51,7 +51,10 @@ const SearchBox = props => {
 
         if (evt.target.value.length === licensePlateLen) {
             let licensePlate = evt.target.value;
-            truckService.getTruckByLicensePlate(licensePlate)
+            truckService.getTruckByLicensePlate({
+                licensePlate: licensePlate,
+                dispatch: dispatch
+            })
                 .then((resultData) => {
                     const truckData = resultData.data;
                     dispatch({ type: GET_TRUCK, truck: truckData });
@@ -102,7 +105,8 @@ const SearchBox = props => {
         removeMarker('poiRadius');
         poiService.getNearestPois({
             poiTypes: poi,
-            truck: storeData.truckReducer.truck
+            truck: storeData.TruckReducer.truck,
+            dispatch: dispatch
         }).then((poisList) => {
             const { data, features } = poisList;
             let poiDataList = data.features || features;
@@ -131,7 +135,7 @@ const SearchBox = props => {
         poiService.getNearestPoisByRadius({
             dispatch: dispatch,
             radius: radius,
-            truck: storeData.truckReducer.truck
+            truck: storeData.TruckReducer.truck
         }).then((poisByRadiusList) => {
             const { data, features } = poisByRadiusList;
             let poiDataList = data.features || features;

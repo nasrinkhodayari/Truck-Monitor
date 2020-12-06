@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import truckReducer from './truck-reducer';
-
+import MainReducer from './main-reducers';
+import TruckReducer from './truck-reducer';
 export default combineReducers({
-    truckReducer
+    TruckReducer, MainReducer
 });
