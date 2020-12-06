@@ -1,7 +1,13 @@
 import { icn_gas_station, icn_hotel, icn_restaurant } from "../Constance/map-icons";
 export const removeMarker = markerType => {
-    document.querySelectorAll(`.${markerType}`).forEach(function (marker) {
-        marker.remove()
+    document.querySelectorAll(`.${markerType}`).forEach(marker => {
+        marker.remove();
+    });
+    document.querySelectorAll('.mapboxgl-popup-tip').forEach(tip => {
+        tip.remove();
+    });
+    document.querySelectorAll('.mapboxgl-popup-content').forEach(popup => {
+        popup.remove();
     });
 };
 

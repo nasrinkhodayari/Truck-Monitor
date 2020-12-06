@@ -44,18 +44,21 @@ const SearchBox = props => {
 
         if (evt.target.value.length < licensePlateLen) {
             removeMarker('truck');
+            removeMarker('path');
             removeMarker('poi');
             removeMarker('poiRadius');
             setDisabledSearchPOI(true);
         }
 
-        if (evt.target.value.length === licensePlateLen) {
+        if (evt.target.value.length === licensePlateLen &&
+            evt.target.value) {
             let licensePlate = evt.target.value;
             truckService.getTruckByLicensePlate({
                 licensePlate: licensePlate,
                 dispatch: dispatch
             })
                 .then((resultData) => {
+                    setDisabledSearchPOI(false);
                     const truckData = resultData.data;
                     dispatch({ type: GET_TRUCK, truck: truckData });
                     flyMapCenter({
@@ -96,7 +99,6 @@ const SearchBox = props => {
                 .catch((exeption) => {
                     console.log(exeption);
                 });
-            setDisabledSearchPOI(false);
         }
     };
     const findPOI = poi => {
@@ -111,7 +113,7 @@ const SearchBox = props => {
             const { data, features } = poisList;
             let poiDataList = data.features || features;
 
-            zoomInAfterSearch(2);
+            // zoomInAfterSearch(2);
 
             poiDataList.map(poiVal => {
                 const { properties, center } = poiVal;
@@ -139,7 +141,7 @@ const SearchBox = props => {
         }).then((poisByRadiusList) => {
             const { data, features } = poisByRadiusList;
             let poiDataList = data.features || features;
-            zoomInAfterSearch(1);
+            // zoomInAfterSearch(1);
             poiDataList.map(poiRadiusVal => {
                 const { properties, geometry } = poiRadiusVal;
                 let markerIcon = [];
@@ -174,7 +176,6 @@ const SearchBox = props => {
                         isDisabled={disabledSearchPOI}
                         placeholder={t('Select radius')} value={selectedPOIRadius} onChange={findPOIByRadius} options={poiByRadiusLabelList} />
                 </Col>
-                {/* <Col lg={2} xs={12}><AppButton label={t('Apply')}></AppButton></Col> */}
             </Row>
             <div className="arrow-icon"
                 onClick={() => {

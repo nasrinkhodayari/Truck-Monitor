@@ -46,7 +46,7 @@ const poiService = {
             `access_token=${REACT_APP_MAPBOX_ACCESS_TOKEN}`
         ].join('');
         return apiRequests.get({
-            patch: REACT_APP_GET_RADIUS_MABBOX_API,
+            path: REACT_APP_GET_RADIUS_MABBOX_API,
             apiURL: nearestPoisByRadiusURL,
             dispatch: dispatch
         });
