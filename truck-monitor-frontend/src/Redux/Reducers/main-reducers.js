@@ -1,7 +1,8 @@
-import { APP_LOADING } from '../Types/main-types';
+import { APP_LOADING, APP_ERROR } from '../Types/main-types';
 
 const initialState = {
-    loading: true
+    loading: true,
+    errorMessage: null
 }
 
 const MainReducer = (state = initialState, action) => {
@@ -10,6 +11,12 @@ const MainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: action.loading
+
+            }
+        case APP_ERROR:
+            return {
+                ...state,
+                errorMessage: action.errorMessage
 
             }
         default: return state

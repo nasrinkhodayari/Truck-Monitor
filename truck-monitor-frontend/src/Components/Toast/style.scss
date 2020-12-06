@@ -1,0 +1,20 @@
+@import '../../Assets/scss/variables.scss';
+.toast-place {
+    z-index: 999;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .toast-header {
+        display: flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        color: $dark_red;
+        border-color: $pink;
+        background-color: $light_pink;
+
+        button{
+            outline: none;
+        }
+    }
+}
