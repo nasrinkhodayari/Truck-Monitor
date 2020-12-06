@@ -1,3 +1,5 @@
+@import '../../Assets/scss/variables.scss';
+
 .truck-monitor-root {
     width: 100%;
     height: 100%;
@@ -14,8 +16,22 @@
             border-radius: 50%;
             cursor: pointer;
         }
-        .mapboxgl-popup-close-button{
-            outline: none;
+        .path {
+            width: 25px;
+            height: 25px;
+        }
+        .mapboxgl-popup {
+            .mapboxgl-popup-tip {
+                border-top-color: $light_sky_blue;
+            }
+            .mapboxgl-popup-content {
+                border: 4px solid $light_sky_blue;
+                border-radius: 10px;
+            }
+            .mapboxgl-popup-close-button {
+                outline: none;
+                color: $red;
+            }
         }
     }
 }

@@ -8,7 +8,8 @@ const {
     REACT_APP_MAPBOX_ACCESS_TOKEN,
     REACT_APP_MAPBOX_CENTER_LNG,
     REACT_APP_MAPBOX_CENTER_LAT,
-    REACT_APP_MAPBOX_ZOOM }
+    REACT_APP_MAPBOX_ZOOM,
+    REACT_APP_MAPBOX_STYLE }
     = process.env;
 
 const TruckMonitor = () => {
@@ -20,6 +21,7 @@ const TruckMonitor = () => {
 
 
     const addMarker = (markerItem) => {
+
         let markerEl = document.createElement('div');
         markerEl.classList.add('marker');
         markerEl.classList.add(markerItem.markerType);
@@ -41,7 +43,7 @@ const TruckMonitor = () => {
         const initializeMap = ({ setMap, mapContainer }) => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
-                style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+                style: REACT_APP_MAPBOX_STYLE, // stylesheet location
                 center: [REACT_APP_MAPBOX_CENTER_LNG, REACT_APP_MAPBOX_CENTER_LAT], // starting position [lng, lat]
                 zoom: REACT_APP_MAPBOX_ZOOM // starting zoom
             });
@@ -56,12 +58,12 @@ const TruckMonitor = () => {
     }, [map]);
     return (
         <div className="truck-monitor-root">
-            <SearchBox map={map}
+            {map && <SearchBox map={map}
                 mapboxgl={mapboxgl}
                 storeData={storeData}
                 dispatch={dispatch}
                 t={t}
-                addMarker={addMarker} />
+                addMarker={addMarker} />}
             <div className='map-container' ref={el => (mapContainer.current = el)} />
         </div>
     );

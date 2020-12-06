@@ -20,8 +20,9 @@ export const markerIconDetector = iconCategories => {
 
 export const flyMapCenter = mapInfo => {
     const { map, center, zoom } = mapInfo;
-    map.flyTo({
-        center: center, zoom: zoom
-    });
+    if (map)
+        map.flyTo({
+            center: center, zoom: zoom
+        });
 
 };

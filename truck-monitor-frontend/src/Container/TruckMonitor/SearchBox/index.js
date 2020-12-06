@@ -62,7 +62,7 @@ const SearchBox = props => {
                 flyMapCenter({
                     map: map,
                     center: center,
-                    zoom: REACT_APP_MAPBOX_ZOOM - 2
+                    zoom: REACT_APP_MAPBOX_ZOOM - 1
                 });
             }
             poiDataList.map(poiVal => {
@@ -107,8 +107,8 @@ const SearchBox = props => {
                     center: geometry.coordinates,
                     icon: markerIconDetector(markerIcon),
                     markerType: 'poiRadius',
-                    title: `Name: ${properties.name || properties.category_en}
-                    Distance:${parseFloat(properties.tilequery.distance)}`
+                    title: `Name: ${properties.name || properties.category_en} -
+                    Distance:${parseInt(properties.tilequery.distance)} M`
                 })
             });
         }).catch((exeption) => {
