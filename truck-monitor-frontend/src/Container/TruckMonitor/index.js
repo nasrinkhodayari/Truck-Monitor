@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { APP_ERROR, APP_LOADING } from '../../Redux/Types/main-types';
 import "./style.scss";
 import SearchBox from "./SearchBox";
@@ -8,7 +7,8 @@ import mapboxgl from 'mapbox-gl';
 import AppLoading from "../../Components/Loading";
 import AppToast from "../../Components/Toast";
 import Welcome from '../../Components/Welcome';
-import { Container, Button, lightColors, darkColors } from 'react-floating-action-button'
+import { Container, Button } from 'react-floating-action-button';
+
 const {
     REACT_APP_MAPBOX_ACCESS_TOKEN,
     REACT_APP_MAPBOX_CENTER_LNG,
@@ -18,18 +18,16 @@ const {
     = process.env;
 
 const TruckMonitor = () => {
-    const { t } = useTranslation();
     const dispatch = useDispatch();
     const storeData = useSelector(state => state);
+    const { MainReducer: { loading, errorMessage } } = storeData;
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
-    const { MainReducer } = storeData;
     const [showWelcomeHelp, setShowWelcomeHelp] = useState(true);
-
 
     useEffect(() => {
         mapboxgl.accessToken = REACT_APP_MAPBOX_ACCESS_TOKEN;
-        const initializeMap = ({ setMap, mapContainer }) => {
+        const initializeMap = () => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: REACT_APP_MAPBOX_STYLE, // stylesheet location
@@ -43,25 +41,19 @@ const TruckMonitor = () => {
                 map.resize();
             });
         };
-
-        if (!map) initializeMap({ setMap, mapContainer });
+        if (!map) initializeMap();
     }, [map, dispatch]);
     return (
         <div>
             <div className="truck-monitor-root">
-                {MainReducer.loading && <AppLoading />}
-                {MainReducer.errorMessage && <AppToast
+                {loading && <AppLoading />}
+                {errorMessage && <AppToast delay={4000}
                     onClose={() => dispatch({ type: APP_ERROR, errorMessage: null })}
-                    bodyContent={MainReducer.errorMessage} />}
-                {map && <SearchBox map={map}
-                    mapboxgl={mapboxgl}
-                    storeData={storeData}
-                    dispatch={dispatch}
-                    t={t} />}
+                    bodyContent={errorMessage} />}
+                {map && <SearchBox map={map} mapboxgl={mapboxgl} />}
                 <div className='map-container' ref={el => (mapContainer.current = el)} />
             </div>
-            {showWelcomeHelp && <Welcome
-                showWelcomeHelp={showWelcomeHelp}
+            {showWelcomeHelp && <Welcome showWelcomeHelp={showWelcomeHelp}
                 setShowWelcomeHelp={setShowWelcomeHelp} />}
             <Container>
                 <Button icon="fa fa-question-circle"
@@ -73,5 +65,4 @@ const TruckMonitor = () => {
         </div>
     );
 }
-
 export default TruckMonitor;

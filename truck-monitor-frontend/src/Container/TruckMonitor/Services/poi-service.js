@@ -15,14 +15,14 @@ const poiService = {
         return translatedPoiLabelList
     },
     getNearestPois: inputParams => {
-        const { truck, poiTypes, dispatch } = inputParams;
+        const { truck: { source_lat, source_lng }, poiTypes, dispatch } = inputParams;
 
         let nearestPoisURL = [
             `${poiTypes.value}.json?`,
             `types=poi&limit=${REACT_APP_POI_LIMIT_COUNT}&`,
             `country=${REACT_APP_GET_COUNTRY}&`,
-            `proximity=${truck.source_lng},`,
-            `${truck.source_lat}&`,
+            `proximity=${source_lng},`,
+            `${source_lat}&`,
             `access_token=${REACT_APP_MAPBOX_ACCESS_TOKEN}`
         ].join('');
         return apiRequests.get({

@@ -1,22 +1,16 @@
-import { GET_TRUCK, TRUCK_ERROR } from '../Types/truck-types';
+import { GET_TRUCK } from '../Types/truck-types';
 
 const initialState = {
-    truck: {},
-    error: {}
+    truck: {}
 }
 
 const TruckReducer = (state = initialState, action) => {
+    const { truck } = action;
     switch (action.type) {
         case GET_TRUCK:
             return {
                 ...state,
-                truck: action.truck
-
-            }
-        case TRUCK_ERROR:
-            return {
-                ...state,
-                error: action.error
+                truck: truck
 
             }
         default: return state

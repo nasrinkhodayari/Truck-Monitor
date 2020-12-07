@@ -55,6 +55,6 @@ export const flyMapCenter = mapInfo => {
 };
 
 export const errorHandler = error => {
-    const { errorData, dispatch } = error;
-    dispatch({ type: APP_ERROR, errorMessage: errorData.data.message || 'something went wrong' });
+    const { errorData: { data: { message } }, dispatch, translator } = error;
+    dispatch({ type: APP_ERROR, errorMessage: `${translator(message)}` || `${translator('something went wrong')}` });
 }

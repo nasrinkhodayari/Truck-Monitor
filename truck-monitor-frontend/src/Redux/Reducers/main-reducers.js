@@ -6,17 +6,18 @@ const initialState = {
 }
 
 const MainReducer = (state = initialState, action) => {
-    switch (action.type) {
+    const { type, loading, errorMessage } = action;
+    switch (type) {
         case APP_LOADING:
             return {
                 ...state,
-                loading: action.loading
+                loading: loading
 
             }
         case APP_ERROR:
             return {
                 ...state,
-                errorMessage: action.errorMessage
+                errorMessage: errorMessage
 
             }
         default: return state

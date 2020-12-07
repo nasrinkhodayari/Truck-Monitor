@@ -38,7 +38,7 @@ exports.read_a_truck = function (req, res) {
         }
         else
             res.status(404).send({
-                message: 'TrucK not found,Please insert correct LicensePlate.',
+                message: 'Truck not found,Please insert correct LicensePlate.',
                 detail: 'Item not found'
             });
     });

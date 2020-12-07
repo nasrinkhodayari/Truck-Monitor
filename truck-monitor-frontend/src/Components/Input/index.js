@@ -7,7 +7,8 @@ const AppInputField = props => {
         onChange={changeHandler}
         value={value}
         maxLength={maxLength}
-        type={type} placeholder={placeholder}/>);
+        type={type}
+        placeholder={placeholder} />);
 }
 
 export default AppInputField;
