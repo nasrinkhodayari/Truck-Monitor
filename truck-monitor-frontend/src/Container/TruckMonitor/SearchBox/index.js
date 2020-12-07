@@ -62,7 +62,7 @@ const SearchBox = props => {
                     center: [truckData.source_lng, truckData.source_lat],
                     icon: icn_first_location,
                     markerType: 'path',
-                    title: `Truck first location`
+                    title: t('Truck first location')
                 });
 
                 addMarker({
@@ -71,7 +71,7 @@ const SearchBox = props => {
                     center: [truckData.current_lng, truckData.current_lat],
                     icon: icn_current_location,
                     markerType: 'truck',
-                    title: `Truck License Plate : ${licensePlate.toUpperCase()}`
+                    title: `${t('Truck License Plate')} : ${licensePlate.toUpperCase()}`
                 });
 
                 truckData.truckRoute.map(routeItem => {
@@ -107,13 +107,14 @@ const SearchBox = props => {
             poiDataList.map(poiVal => {
                 const { properties, center } = poiVal;
                 let markerIcon = markerIconDetector(properties.category.split(', '));
+
                 return addMarker({
                     mapboxgl: mapboxgl,
                     map: map,
                     center: center,
                     icon: markerIcon,
                     markerType: 'poi',
-                    title: `Address: ${properties.address}`
+                    title: `${t('Address')}: ${properties.address || properties.category}`
                 })
             });
         })
@@ -146,8 +147,8 @@ const SearchBox = props => {
                     center: geometry.coordinates,
                     icon: markerIconDetector(markerIcon),
                     markerType: 'poiRadius',
-                    title: `Name: ${properties.name || properties.category_en} -
-                    Distance:${parseInt(properties.tilequery.distance)} M`
+                    title: `${t('Name')}: ${properties.name || properties.category_en} -
+                    ${t('Distance')}:${parseInt(properties.tilequery.distance)} M`
                 })
             });
         })

@@ -6,7 +6,9 @@ import "./style.scss";
 import SearchBox from "./SearchBox";
 import mapboxgl from 'mapbox-gl';
 import AppLoading from "../../Components/Loading";
-import AppToast from "../../Components/Toast"
+import AppToast from "../../Components/Toast";
+import Welcome from '../../Components/Welcome';
+import { Container, Button, lightColors, darkColors } from 'react-floating-action-button'
 const {
     REACT_APP_MAPBOX_ACCESS_TOKEN,
     REACT_APP_MAPBOX_CENTER_LNG,
@@ -22,8 +24,9 @@ const TruckMonitor = () => {
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
     const { MainReducer } = storeData;
+    const [showWelcomeHelp, setShowWelcomeHelp] = useState(true);
 
-   
+
     useEffect(() => {
         mapboxgl.accessToken = REACT_APP_MAPBOX_ACCESS_TOKEN;
         const initializeMap = ({ setMap, mapContainer }) => {
@@ -42,19 +45,31 @@ const TruckMonitor = () => {
         };
 
         if (!map) initializeMap({ setMap, mapContainer });
-    }, [map,dispatch]);
+    }, [map, dispatch]);
     return (
-        <div className="truck-monitor-root">
-            {MainReducer.loading && <AppLoading />}
-            {MainReducer.errorMessage && <AppToast
-                onClose={() => dispatch({ type: APP_ERROR, errorMessage: null })}
-                bodyContent={MainReducer.errorMessage} />}
-            {map && <SearchBox map={map}
-                mapboxgl={mapboxgl}
-                storeData={storeData}
-                dispatch={dispatch}
-                t={t} />}
-            <div className='map-container' ref={el => (mapContainer.current = el)} />
+        <div>
+            <div className="truck-monitor-root">
+                {MainReducer.loading && <AppLoading />}
+                {MainReducer.errorMessage && <AppToast
+                    onClose={() => dispatch({ type: APP_ERROR, errorMessage: null })}
+                    bodyContent={MainReducer.errorMessage} />}
+                {map && <SearchBox map={map}
+                    mapboxgl={mapboxgl}
+                    storeData={storeData}
+                    dispatch={dispatch}
+                    t={t} />}
+                <div className='map-container' ref={el => (mapContainer.current = el)} />
+            </div>
+            {showWelcomeHelp && <Welcome
+                showWelcomeHelp={showWelcomeHelp}
+                setShowWelcomeHelp={setShowWelcomeHelp} />}
+            <Container>
+                <Button icon="fa fa-question-circle"
+                    className="help-button"
+                    rotate={true}
+                    onClick={() => setShowWelcomeHelp(true)}
+                />
+            </Container>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-@import '../../Assets/scss/variables.scss';
+@import "../../Assets/scss/variables.scss";
 
 .truck-monitor-root {
     width: 100%;
@@ -34,4 +34,8 @@
             }
         }
     }
+}
+.help-button {
+    background-color: $sky_blue !important;
+    color: white;
 }

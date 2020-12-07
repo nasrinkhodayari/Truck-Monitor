@@ -6,5 +6,10 @@
     "Hotel":"Hotel",
     "View all":"View all",
     "Select POI type":"Select POI type",
-    "Select radius":"Select radius"
+    "Select radius":"Select radius",
+    "Name": "Name",
+    "Distance": "Distance",
+    "Truck first location": "Truck first location",
+    "Truck License Plate": "Truck License Plate",
+    "Address": "Address"
 }

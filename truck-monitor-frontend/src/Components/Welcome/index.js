@@ -5,11 +5,11 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import './style.scss';
 import I18nInstance from '../../Utils/i18n';
 
-const Welcome = () => {
-    const [show, setShow] = useState(true);
+const Welcome = props => {
+    const { showWelcomeHelp,setShowWelcomeHelp } = props;
     const [languageEnglish, setLanguageEnglish] = useState(I18nInstance.language === "en" ? true : false);
     return (
-        show && <div className="welcome-container">
+        showWelcomeHelp && <div className="welcome-container">
             <Alert variant="success" className="welcome">
                 <Alert.Heading>Hi, nice to see you</Alert.Heading>
                 <p>This is a sample for <strong>MAN Truck Monitor</strong>,there is a truck
@@ -18,8 +18,9 @@ const Welcome = () => {
                 so please use this license plate number :<strong> FN67KE</strong> ,
                 if you enter wrong licesne plate number,system will warn you.
                 Also this application support two language (pt/en) it set base on your browser language ,
-                 but you can change it using this switch button ,
-                <BootstrapSwitchButton
+                 but you can change it using this switch button.
+                 </p>
+                Change Language: <BootstrapSwitchButton
                         checked={languageEnglish}
                         onlabel='en'
                         offlabel='pt'
@@ -30,11 +31,10 @@ const Welcome = () => {
                             localStorage.setItem('lang', I18nInstance.language);
                         }}
                     />
-                </p>
                 <hr />
                 <p><strong>Thank you in advance for your attention :)</strong></p>
                 <div className="d-flex justify-content-end">
-                    <Button onClick={() => setShow(false)} variant="outline-success">Got it</Button>
+                    <Button onClick={() => setShowWelcomeHelp(false)} variant="outline-success">Got it</Button>
                 </div>
             </Alert>
         </div>

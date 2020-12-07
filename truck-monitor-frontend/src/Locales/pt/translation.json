@@ -2,9 +2,14 @@
     "Apply": "Aplique",
     "Search by license plate": "Pesquisa por placa de carro",
     "Gas Station": "Posto de gasolina",
-    "Restaurant":"Restaurante",
-    "Hotel":"Hotel",
-    "View all":"Ver todos",
-    "Select POI type":"Selecione o tipo de POI",
-    "Select radius":"Selecionar raio"
+    "Restaurant": "Restaurante",
+    "Hotel": "Hotel",
+    "View all": "Ver todos",
+    "Select POI type": "Selecione o tipo de POI",
+    "Select radius": "Selecionar raio",
+    "Name": "Nome",
+    "Distance": "Distância",
+    "Truck first location": "Primeira localização do caminhão",
+    "Truck License Plate": "Matrícula de caminhão",
+    "Address": "Endereço"
 }
