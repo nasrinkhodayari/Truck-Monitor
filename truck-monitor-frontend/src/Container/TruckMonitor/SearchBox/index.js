@@ -46,52 +46,46 @@ const SearchBox = props => {
             truckService.getTruckByLicensePlate({
                 licensePlate: licensePlate,
                 dispatch: dispatch
-            })
-                .then(resultData => {
+            }).then(resultData => {
+                setDisabledSearchPOI(false);
+                const truckData = resultData.data;
+                dispatch({ type: GET_TRUCK, truck: truckData });
+                flyMapCenter({
+                    map: map,
+                    center: [truckData.current_lng, truckData.current_lat],
+                    zoom: REACT_APP_MAPBOX_ZOOM
+                });
 
-                    setDisabledSearchPOI(false);
-                    const truckData = resultData.data;
-                    dispatch({ type: GET_TRUCK, truck: truckData });
-                    flyMapCenter({
-                        map: map,
-                        center: [
-                            truckData.current_lng,
-                            truckData.current_lat
-                        ],
-                        zoom: REACT_APP_MAPBOX_ZOOM
-                    });
+                addMarker({
+                    mapboxgl: mapboxgl,
+                    map: map,
+                    center: [truckData.source_lng, truckData.source_lat],
+                    icon: icn_first_location,
+                    markerType: 'path',
+                    title: `Truck first location`
+                });
 
-                    addMarker({
-                        mapboxgl:mapboxgl,
+                addMarker({
+                    mapboxgl: mapboxgl,
+                    map: map,
+                    center: [truckData.current_lng, truckData.current_lat],
+                    icon: icn_current_location,
+                    markerType: 'truck',
+                    title: `Truck License Plate : ${licensePlate.toUpperCase()}`
+                });
+
+                truckData.truckRoute.map(routeItem => {
+                    return addMarker({
+                        mapboxgl: mapboxgl,
                         map: map,
-                        center: [truckData.source_lng, truckData.source_lat],
-                        icon: icn_first_location,
+                        center: routeItem,
+                        icon: icn_path,
                         markerType: 'path',
-                        title: `Truck first location`
+                        title: routeItem
                     });
-
-                    addMarker({
-                        mapboxgl:mapboxgl,
-                        map: map,
-                        center: [truckData.current_lng, truckData.current_lat],
-                        icon: icn_current_location,
-                        markerType: 'truck',
-                        title: `Truck License Plate : ${licensePlate.toUpperCase()}`
-                    });
-
-                    truckData.truckRoute.map((routeItem) => {
-                        return addMarker({
-                            mapboxgl:mapboxgl,
-                            map: map,
-                            center: routeItem,
-                            icon: icn_path,
-                            markerType: 'path',
-                            title: routeItem
-                        });
-                    });
-                })
+                });
+            })
                 .catch(error => {
-                    
                     errorHandler({
                         errorData: error.response,
                         dispatch: dispatch
@@ -107,15 +101,14 @@ const SearchBox = props => {
             poiTypes: poi,
             truck: storeData.TruckReducer.truck,
             dispatch: dispatch
-        }).then((poisList) => {
+        }).then(poisList => {
             const { data, features } = poisList;
             let poiDataList = data.features || features;
-
             poiDataList.map(poiVal => {
                 const { properties, center } = poiVal;
                 let markerIcon = markerIconDetector(properties.category.split(', '));
                 return addMarker({
-                    mapboxgl:mapboxgl,
+                    mapboxgl: mapboxgl,
                     map: map,
                     center: center,
                     icon: markerIcon,
@@ -125,7 +118,6 @@ const SearchBox = props => {
             });
         })
             .catch(error => {
-                
                 errorHandler({
                     errorData: error.response,
                     dispatch: dispatch
@@ -140,16 +132,16 @@ const SearchBox = props => {
             dispatch: dispatch,
             radius: radius,
             truck: storeData.TruckReducer.truck
-        }).then((poisByRadiusList) => {
+        }).then(poisByRadiusList => {
             const { data, features } = poisByRadiusList;
             let poiDataList = data.features || features;
-            
+
             poiDataList.map(poiRadiusVal => {
                 const { properties, geometry } = poiRadiusVal;
                 let markerIcon = [];
                 markerIcon.push((properties.type).toLocaleLowerCase());
                 return addMarker({
-                    mapboxgl:mapboxgl,
+                    mapboxgl: mapboxgl,
                     map: map,
                     center: geometry.coordinates,
                     icon: markerIconDetector(markerIcon),
@@ -160,7 +152,6 @@ const SearchBox = props => {
             });
         })
             .catch(error => {
-                
                 errorHandler({
                     errorData: error.response,
                     dispatch: dispatch

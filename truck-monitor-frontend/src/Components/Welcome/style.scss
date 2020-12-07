@@ -1,0 +1,16 @@
+@import "../../Assets/scss/variables.scss";
+.welcome-container {
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $light_blue_gray;
+    .welcome {
+        width: 50%;
+        margin: 0 auto;
+        top: 30%;
+        z-index: 1000;
+    }
+}

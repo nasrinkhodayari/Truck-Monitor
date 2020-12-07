@@ -42,7 +42,7 @@ const TruckMonitor = () => {
         };
 
         if (!map) initializeMap({ setMap, mapContainer });
-    }, [map]);
+    }, [map,dispatch]);
     return (
         <div className="truck-monitor-root">
             {MainReducer.loading && <AppLoading />}
