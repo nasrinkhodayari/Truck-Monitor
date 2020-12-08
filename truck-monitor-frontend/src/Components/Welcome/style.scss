@@ -12,5 +12,9 @@
         margin: 0 auto;
         top: 25%;
         z-index: 1000;
+        @media screen and (max-width: 992px) {
+           width: 100%;
+           top: 0;
+        }
     }
 }

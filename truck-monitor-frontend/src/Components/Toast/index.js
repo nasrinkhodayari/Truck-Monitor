@@ -6,7 +6,7 @@ import './style.scss';
 const AppToast = props => {
     const { bodyContent, onClose, delay } = props;
     return (
-        <Toast className="toast-place" onClose={onClose} delay={delay} autohide>
+        <Toast className="toast-place" onClose={onClose} >
             <ToastHeader>
                 <span>{bodyContent}</span>
             </ToastHeader>

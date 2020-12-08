@@ -92,9 +92,8 @@ const SearchBox = props => {
                 });
             })
                 .catch(error => {
-                    const { response } = error;
                     errorHandler({
-                        errorData: response,
+                        errorData: error,
                         dispatch: dispatch,
                         translator: t
                     });
@@ -126,14 +125,13 @@ const SearchBox = props => {
                 })
             });
         })
-            .catch(error => {
-                const { response } = error;
-                errorHandler({
-                    errorData: response,
-                    dispatch: dispatch,
-                    translator: t
-                });
+        .catch(error => {
+            errorHandler({
+                errorData: error,
+                dispatch: dispatch,
+                translator: t
             });
+        });
     };
     const findPOIByRadius = radius => {
         setSelectedPOIRadius(radius);
@@ -165,14 +163,13 @@ const SearchBox = props => {
                 })
             });
         })
-            .catch(error => {
-                const { response } = error;
-                errorHandler({
-                    errorData: response,
-                    dispatch: dispatch,
-                    translator: t
-                });
+        .catch(error => {
+            errorHandler({
+                errorData: error,
+                dispatch: dispatch,
+                translator: t
             });
+        });
     };
     return (
         <div className={`${defaultSearchBoxClass} ${searchBoxClass}`}>
