@@ -14,7 +14,7 @@ import { GET_TRUCK } from '../../../Redux/Types/truck-types';
 
 const SearchBox = props => {
     const { map, mapboxgl } = props;
-    const { t } = useTranslation();
+    const { t, Trans } = useTranslation();
     const dispatch = useDispatch();
     const storeData = useSelector(state => state);
     const { TruckReducer: { truck } } = storeData;
@@ -23,12 +23,12 @@ const SearchBox = props => {
     const [searchBoxClass, setSearchBoxClass] = useState('show-search-box-row');
     const defaultSearchBoxClass = 'search-box-row';
     const [showSearchBox, setShowSearchBox] = useState(true);
-    const [poiLabelList] = useState(poiService.getpoiLabelList(t));
+    const [poiLabelList] = useState(poiService.getpoiLabelList());
     const [allPoiOption] = useState({
         label: t('View all'),
         value: poiLabelList.map(item => item.value)
     });
-    const [poiByRadiusLabelList] = useState(poiService.getpoiByRadiusLabelList(t));
+    const [poiByRadiusLabelList] = useState(poiService.getpoiByRadiusLabelList());
     const [disabledSearchPOI, setDisabledSearchPOI] = useState(true);
     const { REACT_APP_LICENSE_PLATE_LENGTH,
         REACT_APP_MAPBOX_ZOOM
@@ -125,13 +125,13 @@ const SearchBox = props => {
                 })
             });
         })
-        .catch(error => {
-            errorHandler({
-                errorData: error,
-                dispatch: dispatch,
-                translator: t
+            .catch(error => {
+                errorHandler({
+                    errorData: error,
+                    dispatch: dispatch,
+                    translator: t
+                });
             });
-        });
     };
     const findPOIByRadius = radius => {
         setSelectedPOIRadius(radius);
@@ -163,13 +163,13 @@ const SearchBox = props => {
                 })
             });
         })
-        .catch(error => {
-            errorHandler({
-                errorData: error,
-                dispatch: dispatch,
-                translator: t
+            .catch(error => {
+                errorHandler({
+                    errorData: error,
+                    dispatch: dispatch,
+                    translator: t
+                });
             });
-        });
     };
     return (
         <div className={`${defaultSearchBoxClass} ${searchBoxClass}`}>
@@ -185,6 +185,8 @@ const SearchBox = props => {
                 <Col lg={4} xs={12}>
                     <Select isDisabled={disabledSearchPOI} placeholder={t('Select radius')}
                         value={selectedPOIRadius} onChange={findPOIByRadius} options={poiByRadiusLabelList} />
+
+
                 </Col>
             </Row>
             <div className="arrow-icon" onClick={() => {

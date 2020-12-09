@@ -9,10 +9,8 @@ const { REACT_APP_POI_LIMIT_COUNT,
 } = process.env;
 
 const poiService = {
-    getpoiLabelList: translator => {
-        let translatedPoiLabelList = poisLabelData;
-        translatedPoiLabelList.map(item => item.label = translator(item.label));
-        return translatedPoiLabelList
+    getpoiLabelList: () => {
+        return poisLabelData
     },
     getNearestPois: inputParams => {
         const { truck: { source_lat, source_lng }, poiTypes, dispatch } = inputParams;
