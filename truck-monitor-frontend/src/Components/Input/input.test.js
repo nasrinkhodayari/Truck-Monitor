@@ -8,15 +8,17 @@ describe("App TextInput component", () => {
     type = 'text',
     placeholder = 'license plate',
     changeHandler = jest.fn();
-  const InputFieldComponent = (
-  <AppInputField
-    value={value}
-    maxLength={maxLength}
-    type={type}
-    placeholder={placeholder}
-    changeHandler={changeHandler}
-  />);
-
+  let InputFieldComponent;
+  beforeEach(() => {
+    InputFieldComponent = (
+      <AppInputField
+        value={value}
+        maxLength={maxLength}
+        type={type}
+        placeholder={placeholder}
+        changeHandler={changeHandler}
+      />);
+  });
   it("TextInput render correctly (Match Snapshot)", () => {
     const wrapper = render(InputFieldComponent);
     expect(wrapper).toMatchSnapshot();
