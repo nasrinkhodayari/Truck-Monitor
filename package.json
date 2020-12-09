@@ -1,0 +1,19 @@
+{
+  "name": "truck-monitor-webapp",
+  "version": "1.0.0",
+  "description": "## FrontEnd /truck-monitor-frontend ### Used Technologies Reactjs, React Hooks, Redux, Axios, React Bootstrap, SCSS, Responsive Web Design, Jest, Enzyme",
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/nasrinkh/truck-monitor-webapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/nasrinkh/truck-monitor-webapp/issues"
+  },
+  "homepage": "https://gitlab.com/nasrinkh/truck-monitor-webapp#readme"
+}
