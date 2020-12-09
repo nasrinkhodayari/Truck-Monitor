@@ -18,3 +18,9 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
     })),
     NavigationControl: jest.fn(),
   }));
+
+  //for avoiding this Warning: useLayoutEffect does nothing on the server....
+  jest.mock('react', () => ({
+    ...jest.requireActual('react'),
+    useLayoutEffect: jest.requireActual('react').useEffect,
+  }));

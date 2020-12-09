@@ -17,7 +17,7 @@ const Welcome = props => {
                 firstly you need to enter the truck license plate ,
                 so please use this license plate number :<strong> FN67KE</strong> ,
                 if you enter wrong licesne plate number,system will warn you.
-                Also this application support two language (pt/en) it set base on your browser language ,
+                Also this application support two language <strong>(pt/en)</strong> it set base on your browser language ,
                  but you can change it using this switch button.
                  </p>
                 Change Language: <BootstrapSwitchButton
