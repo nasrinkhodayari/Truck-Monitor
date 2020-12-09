@@ -2,7 +2,7 @@
 
 ## FrontEnd /truck-monitor-frontend
 ### Used Technologies
-Reactjs, React Hooks, Redux, Axios, React Bootstrap, SCSS, Responsive Web Design, Jest, Enzyme
+Reactjs, React Hooks, Redux, Axios, React Bootstrap, SCSS, Responsive Web Design, Jest, Enzyme ,mapbox
 
 In the project directory (/truck-monitor-frontend), you can run:
 ### `npm start`
