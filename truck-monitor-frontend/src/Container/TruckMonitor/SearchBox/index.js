@@ -102,6 +102,7 @@ const SearchBox = props => {
     };
     const findPOI = poi => {
         setSelectedPOI(poi);
+        setSelectedPOIRadius('');
         removeMarker('poi');
         removeMarker('poiRadius');
         poiService.getNearestPois({
